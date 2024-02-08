@@ -12,4 +12,7 @@ public class TclangPreferences {
 
     @Value("${output.path}")
     private String outputPath;
+
+    @Value("${translation.service.uri}")
+    private String translationServiceUrl;
 }

@@ -26,24 +26,4 @@ public class TclangApplication {
 		langParser.run();
 	}
 
-	public void readAdvancedHatch() {
-		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-		try {
-			AdvancedHatchTranslationPackage advancedHatchTranslationPackage = mapper
-					.readValue(
-							new File("src/main/resources/projects/advancedhatch/advancedhatch.yml"),
-							AdvancedHatchTranslationPackage.class
-					);
-			advancedHatchTranslationPackage.getLabels().forEach(u -> {
-				System.out.printf("%s %s %n", u.getDestination(), u.getName());
-				for (Locale locale : u.getTranslations().keySet()) {
-					System.out.printf("%s %s %s %n", locale.getDisplayLanguage(), locale.getDisplayLanguage(), locale.toLanguageTag());
-				}
-			});
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-		}
-	}
-
 }

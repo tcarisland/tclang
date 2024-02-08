@@ -1,5 +1,6 @@
 package com.tcarisland.tclang.components;
 
+import com.tcarisland.tclang.projects.advancedhatch.AdvancedHatchAutoTranslator;
 import lombok.Data;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,9 @@ import java.util.Locale;
 public class LangParser {
 
     @Autowired
-    private TclangPreferences preferences;
+    AdvancedHatchAutoTranslator advancedHatchAutoTranslator;
 
     public void run() {
-        System.out.printf("outputPath: %s%n", preferences.getOutputPath());
+        advancedHatchAutoTranslator.run();
     }
 }
