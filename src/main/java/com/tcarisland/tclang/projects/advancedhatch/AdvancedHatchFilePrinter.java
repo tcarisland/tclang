@@ -10,6 +10,7 @@ import com.tcarisland.tclang.components.TclangPreferences;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,6 +30,16 @@ public class AdvancedHatchFilePrinter {
             for(SupportedLanguage language : SupportedLanguage.values()) {
                 Path dirPath = Paths.get(basePath.toString(), String.format("%s.lproj", language.glyphsTag()));
                 Files.createDirectories(dirPath);
+                Path filePath = Paths.get(dirPath.toString(), "IBdialog.strings");
+                PrintWriter out = new PrintWriter(filePath.toFile());
+                if(translationPackage.getLabels() == null) {
+                    return;
+                }
+                for(AdvancedHatchItemLabel label : translationPackage.getLabels()) {
+                    String formattedLabel = IBDialogFormat.format(label, language.getLocale());
+                    out.print(formattedLabel);
+                }
+                out.close();
             }
             System.out.printf("basePath %s", basePath);
         } catch (Exception e) {

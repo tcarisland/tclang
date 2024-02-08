@@ -1,34 +1,22 @@
 labels:
-  - name: angleTextField
-    destination: rHB-DK-lba
+  - name: Angle
+    destination: pEa-lr-1VJ
     translations:
       en: Angle
-  - name: offsetPathCheckBox
-    destination: Rzk-9s-yBn
+  - name: Offset Path
+    destination: eFc-n8-z2C
     translations:
       en: Offset Path
-  - name: offsetPathEndTextField
-    destination: JIK-4k-gBC
+  - name: Origin
+    destination: w1P-Fy-eUL
     translations:
-      en: Start Stroke
-  - name: offsetPathStartTextField
-    destination: cba-EJ-vKn
-    translations:
-      en: End Stroke
-  - name: originXTextField
-    destination: hC4-Zr-Om6
-    translations:
-      en: Origin X
-  - name: originYTextField
-    destination: eq8-t9-4CU
-    translations:
-      en: Origin Y
-  - name: stepWidthTextField
-    destination: A5k-2X-Npc
+      en: Origin
+  - name: Step Width
+    destination: ld6-7M-ePT
     translations:
       en: Step Width
-  - name: useBackgroundCheckBox
-    destination: AHi-YA-LpG
+  - name: Use Background
+    destination: sSa-7I-PQY
     translations:
       en: Use Background
 
