@@ -41,7 +41,7 @@ public class AdvancedHatchAutoTranslator {
     }
 
     public AdvancedHatchTranslationPackage translate() {
-        AdvancedHatchTranslationPackage translationPackage = readAdvancedHatch();
+        AdvancedHatchTranslationPackage translationPackage = AdvancedHatchAutoTranslator.readAdvancedHatch("src/main/resources/projects/advancedhatch/advancedhatch.yml");
         if(translationPackage == null) {
             System.out.println("translationPackage is null");
             return translationPackage;
@@ -60,15 +60,14 @@ public class AdvancedHatchAutoTranslator {
         return translationPackage;
     }
 
-    public AdvancedHatchTranslationPackage readAdvancedHatch() {
+    public static AdvancedHatchTranslationPackage readAdvancedHatch(String path) {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
-            AdvancedHatchTranslationPackage advancedHatchTranslationPackage = mapper
+            return mapper
                     .readValue(
-                            new File("src/main/resources/projects/advancedhatch/advancedhatch.yml"),
+                            new File(path),
                             AdvancedHatchTranslationPackage.class
                     );
-            return advancedHatchTranslationPackage;
         } catch (IOException e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
