@@ -5,6 +5,8 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Locale;
+
 @Getter
 @Component
 public class LangParser {
@@ -14,8 +16,5 @@ public class LangParser {
 
     public void run() {
         System.out.printf("outputPath: %s%n", preferences.getOutputPath());
-        for(SupportedLanguage lang : SupportedLanguage.values()) {
-            System.out.printf("LANGUAGE %s %n", lang.getLocale().getLanguage());
-        }
     }
 }

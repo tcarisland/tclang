@@ -13,7 +13,7 @@ public enum SupportedLanguage {
     SPANISH(Locale.forLanguageTag("es")),
     FRENCH(Locale.FRENCH),
     JAPANESE(Locale.JAPANESE),
-    NORWEGIAN(Locale.forLanguageTag("no"));
+    NORWEGIAN(Locale.forLanguageTag("nb-NO"));
 
     final Locale locale;
 }
