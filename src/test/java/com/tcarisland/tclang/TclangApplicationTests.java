@@ -17,7 +17,7 @@ class TclangApplicationTests {
 	void printLanguages() {
 		for(SupportedLanguage lang : SupportedLanguage.values()) {
 			Locale l = lang.getLocale();
-			System.out.printf("LANGUAGE %s %s %s %n", l.toLanguageTag(), l.getLanguage(), l.getCountry());
+			System.out.printf("LANG %s %n", lang.glyphsTag());
 		}
 	}
 
