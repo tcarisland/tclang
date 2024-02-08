@@ -2,35 +2,48 @@ package com.tcarisland.tclang;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.tcarisland.tclang.components.LangParser;
+import com.tcarisland.tclang.projects.advancedhatch.AdvancedHatchTranslationPackage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.Locale;
 
 @SpringBootApplication
+@EntityScan(basePackages = "com.tcarisland.tclang")
 public class TclangApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TclangApplication.class, args);
+		ConfigurableApplicationContext applicationContext = SpringApplication.run(TclangApplication.class, args);
+		LangParser langParser = applicationContext.getBean(LangParser.class);
+		langParser.run();
 	}
 
-	public TclangApplication() {
+	public void readAdvancedHatch() {
 		ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        try {
-            AdvancedHatchTranslationPackage advancedHatchTranslationPackage = mapper
+		try {
+			AdvancedHatchTranslationPackage advancedHatchTranslationPackage = mapper
 					.readValue(
 							new File("src/main/resources/projects/advancedhatch/advancedhatch.yml"),
 							AdvancedHatchTranslationPackage.class
 					);
 			advancedHatchTranslationPackage.getLabels().forEach(u -> {
 				System.out.printf("%s %s %n", u.getDestination(), u.getName());
+				for (Locale locale : u.getTranslations().keySet()) {
+					System.out.printf("%s %s %s %n", locale.getDisplayLanguage(), locale.getDisplayLanguage(), locale.toLanguageTag());
+				}
 			});
-        } catch (IOException e) {
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
-        }
-    }
+		}
+	}
 
 }

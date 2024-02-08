@@ -1,4 +1,4 @@
-package com.tcarisland.tclang;
+package com.tcarisland.tclang.projects.advancedhatch;
 
 import lombok.Data;
 
