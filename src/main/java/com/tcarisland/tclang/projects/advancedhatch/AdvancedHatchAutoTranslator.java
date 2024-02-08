@@ -1,6 +1,7 @@
 package com.tcarisland.tclang.projects.advancedhatch;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.tcarisland.tclang.components.SupportedLanguage;
 import com.tcarisland.tclang.components.TclangPreferences;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 @Service
 public class AdvancedHatchAutoTranslator {
@@ -24,21 +27,39 @@ public class AdvancedHatchAutoTranslator {
     }
 
     public void run() {
-        System.out.printf("%s", preferences.getTranslationServiceUrl());
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        AdvancedHatchTranslationPackage translationPackage = translate();
+        try {
+            if(translationPackage == null) {
+                return;
+            }
+            System.out.println(mapper.writer(SerializationFeature.INDENT_OUTPUT).writeValueAsString(translationPackage));
+            mapper.writeValue(new File(String.format("src/main/resources/projects/advancedhatch/advancedhatch_translated.yml")), translationPackage);
+        } catch (IOException e) {
+            System.out.printf("%s%n", e.getMessage());
+        }
+    }
+
+    public AdvancedHatchTranslationPackage translate() {
         AdvancedHatchTranslationPackage translationPackage = readAdvancedHatch();
         if(translationPackage == null) {
             System.out.println("translationPackage is null");
-            return;
+            return translationPackage;
         }
         SupportedLanguage defaultLanguage = SupportedLanguage.ENGLISH;
         for(SupportedLanguage language : SupportedLanguage.values()) {
             for(AdvancedHatchItemLabel label : translationPackage.getLabels()) {
+                Map<Locale, String> updatedTranslations = label.getTranslations();
                 String originalLabel = label.getTranslations().get(defaultLanguage.getLocale());
                 String translatedLabel = translationService.translateText(originalLabel, defaultLanguage.getLocale(), language.getLocale(), preferences.getTranslationServiceUrl());
-                System.out.printf("TRANSLATION %s %s %s %s%n", label.getName(), language.getLocale().toLanguageTag(), originalLabel, translatedLabel);
+                System.out.printf("%s : %s - %s%n", language.glyphsTag(), originalLabel, translatedLabel);
+                updatedTranslations.put(language.getLocale(), translatedLabel);
+                label.setTranslations(updatedTranslations);
             }
         }
+        return translationPackage;
     }
+
     public AdvancedHatchTranslationPackage readAdvancedHatch() {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         try {
