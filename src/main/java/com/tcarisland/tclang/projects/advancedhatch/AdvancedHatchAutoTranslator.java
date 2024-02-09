@@ -49,15 +49,22 @@ public class AdvancedHatchAutoTranslator {
         SupportedLanguage defaultLanguage = SupportedLanguage.ENGLISH;
         for(SupportedLanguage language : SupportedLanguage.values()) {
             for(AdvancedHatchItemLabel label : translationPackage.getLabels()) {
-                Map<Locale, String> updatedTranslations = label.getTranslations();
-                String originalLabel = label.getTranslations().get(defaultLanguage.getLocale());
-                String translatedLabel = translationService.translateText(originalLabel, defaultLanguage.getLocale(), language.getLocale(), preferences.getTranslationServiceUrl());
-                System.out.printf("%s : %s - %s%n", language.glyphsTag(), originalLabel, translatedLabel);
-                updatedTranslations.put(language.getLocale(), translatedLabel);
-                label.setTranslations(updatedTranslations);
+                label.setTranslations(translateLabel(label, defaultLanguage, language));
+            }
+            for(AdvancedHatchItemLabel pythonLabel : translationPackage.getPythonLabels()) {
+                pythonLabel.setTranslations(translateLabel(pythonLabel, defaultLanguage, language));
             }
         }
         return translationPackage;
+    }
+
+    public Map<Locale, String> translateLabel(AdvancedHatchItemLabel label, SupportedLanguage defaultLanguage, SupportedLanguage language) {
+        Map<Locale, String> updatedTranslations = label.getTranslations();
+        String originalLabel = label.getTranslations().get(defaultLanguage.getLocale());
+        String translatedLabel = translationService.translateText(originalLabel, defaultLanguage.getLocale(), language.getLocale(), preferences.getTranslationServiceUrl());
+        System.out.printf("%s : %s - %s%n", language.glyphsTag(), originalLabel, translatedLabel);
+        updatedTranslations.put(language.getLocale(), translatedLabel);
+        return updatedTranslations;
     }
 
     public static AdvancedHatchTranslationPackage readAdvancedHatch(String path) {

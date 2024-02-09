@@ -6,4 +6,5 @@ import java.util.List;
 @Data
 public class AdvancedHatchTranslationPackage {
     List<AdvancedHatchItemLabel> labels;
+    List<AdvancedHatchItemLabel> pythonLabels;
 }

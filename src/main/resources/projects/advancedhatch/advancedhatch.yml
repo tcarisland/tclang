@@ -20,3 +20,8 @@ labels:
     translations:
       en: Use Background
 
+pythonLabels:
+  - name: Menu Name
+    destination: menuName
+    translations:
+      en: Advanced Hatch
